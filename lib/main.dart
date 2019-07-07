@@ -1,16 +1,33 @@
+import 'dart:async';
+
+import 'package:app_guia_sh/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(new MaterialApp(
-      title: "App Guia SH", home: Home())); // Column, MaterialApp
+    title: "App Guia SH",
+    home: SplashScreen(),
+    debugShowCheckedModeBanner: false,
+  )); // Column, MaterialApp
 }
 
-class Home extends StatefulWidget {
+class SplashScreen extends StatefulWidget {
   @override
-  _HomeState createState() => _HomeState();
+  _SplashScreen createState() => _SplashScreen();
 }
 
-class _HomeState extends State<Home> {
+class _SplashScreen extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    new Future.delayed(
+        const Duration(seconds: 1),
+        () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HomeScreen()),
+            ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
