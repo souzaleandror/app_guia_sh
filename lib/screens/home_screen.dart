@@ -33,8 +33,6 @@ class HomeScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return InkWell(
                       onTap: () {
-                        print(snapshot.data.documents[index]);
-                        print(snapshot.data.documents[index].documentID);
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => CategoryScreen(
                                 snapshot.data.documents[index])));

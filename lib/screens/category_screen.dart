@@ -1,3 +1,4 @@
+import 'package:app_guia_sh/screens/company_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -28,11 +29,6 @@ class CategoryScreen extends StatelessWidget {
                 child: CircularProgressIndicator(),
               );
             } else {
-              print(snapshot);
-              print(snapshot.data);
-              print(snapshot.data.documents);
-              print(snapshot.data.documents.length);
-
               return ListView.builder(
                   padding: EdgeInsets.all(4.0),
                   itemCount: snapshot.data.documents.length,
@@ -82,7 +78,8 @@ class CategoryScreen extends StatelessWidget {
         ),
       ),
       onTap: () {
-        //_showOptions(context, index);
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => CompanyScreen(company)));
       },
     );
   }

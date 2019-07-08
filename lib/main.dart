@@ -20,7 +20,7 @@ class _SplashScreen extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    new Future.delayed(const Duration(seconds: 1), () {
+    new Future.delayed(const Duration(seconds: 4), () {
       Navigator.pop(context);
       Navigator.push(
         context,
