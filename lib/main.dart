@@ -8,6 +8,9 @@ void main() {
     title: "App Guia SH",
     home: SplashScreen(),
     debugShowCheckedModeBanner: false,
+    theme: ThemeData(
+        primarySwatch: Colors.blue,
+        primaryColor: Color.fromARGB(255, 4, 125, 141)),
   )); // Column, MaterialApp
 }
 
@@ -20,12 +23,9 @@ class _SplashScreen extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    new Future.delayed(const Duration(seconds: 4), () {
-      Navigator.pop(context);
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
-      );
+    new Future.delayed(const Duration(seconds: 1), () {
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => HomeScreen()));
     });
   }
 

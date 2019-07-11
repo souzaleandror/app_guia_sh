@@ -1,4 +1,5 @@
 import 'package:app_guia_sh/screens/category_screen.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -43,9 +44,17 @@ class HomeScreen extends StatelessWidget {
                         children: <Widget>[
                           AspectRatio(
                             aspectRatio: 0.8,
-                            child: Image.network(
-                                snapshot.data.documents[index]["images"],
+                            child: CachedNetworkImage(
+                                placeholder: CircularProgressIndicator(),
+                                errorWidget: Icon(Icons.error),
+                                fadeOutDuration: Duration(seconds: 1),
+                                fadeInDuration: Duration(seconds: 2),
+                                imageUrl: snapshot.data.documents[index]
+                                    ["images"],
                                 fit: BoxFit.cover),
+                            //child: Image.network(
+                            //    snapshot.data.documents[index]["images"],
+                            //    fit: BoxFit.cover),
                           ),
                           Expanded(
                             child: Container(

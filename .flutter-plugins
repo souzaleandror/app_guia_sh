@@ -3,4 +3,7 @@ firebase_auth=/Users/leandrorodrigues/Documents/flutter/.pub-cache/hosted/pub.da
 firebase_core=/Users/leandrorodrigues/Documents/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core-0.4.0+6/
 firebase_storage=/Users/leandrorodrigues/Documents/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_storage-3.0.2/
 image_picker=/Users/leandrorodrigues/Documents/flutter/.pub-cache/hosted/pub.dartlang.org/image_picker-0.6.0+11/
+path_provider=/Users/leandrorodrigues/Documents/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-0.4.1/
+share=/Users/leandrorodrigues/Documents/flutter/.pub-cache/hosted/pub.dartlang.org/share-0.6.1+1/
+shared_preferences=/Users/leandrorodrigues/Documents/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences-0.4.3/
 url_launcher=/Users/leandrorodrigues/Documents/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher-5.0.3/
