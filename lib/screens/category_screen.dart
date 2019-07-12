@@ -58,9 +58,6 @@ class CategoryScreen extends StatelessWidget {
                   image: DecorationImage(
                       image: CachedNetworkImageProvider(company["images"]),
                       fit: BoxFit.cover),
-//                  image: DecorationImage(
-//                      image: NetworkImage(company["images"]),
-//                      fit: BoxFit.cover),
                 ),
               ), // Container
               Padding(
