@@ -42,7 +42,7 @@ class HomeScreen extends StatelessWidget {
                           "Bem Vindo a",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 45.0,
+                              fontSize: 40.0,
                               color: Colors.white,
                               shadows: <Shadow>[
                                 Shadow(
@@ -66,7 +66,7 @@ class HomeScreen extends StatelessWidget {
                           "Santa Helena - Parana",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 35.0,
+                              fontSize: 30.0,
                               color: Colors.white,
                               shadows: <Shadow>[
                                 Shadow(
@@ -90,7 +90,7 @@ class HomeScreen extends StatelessWidget {
                         child: Text("Encontramos 30 categorias para você",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 23.0,
+                                fontSize: 20.0,
                                 color: Colors.white,
                                 shadows: <Shadow>[
                                   Shadow(
@@ -159,7 +159,7 @@ class HomeScreen extends StatelessWidget {
                     children: [
                       Container(
                         alignment: Alignment.center,
-                        padding: EdgeInsets.only(top: 10),
+                        padding: EdgeInsets.only(top: 10, bottom: 10),
                         width: MediaQuery.of(context).size.width,
                         child: Text("Categorias",
                             style: TextStyle(
@@ -168,9 +168,9 @@ class HomeScreen extends StatelessWidget {
                                 color: Colors.orange,
                                 shadows: <Shadow>[
                                   Shadow(
-                                    offset: Offset(1.0, 1.0),
-                                    blurRadius: 3.0,
-                                    color: Color.fromARGB(255, 255, 255, 0),
+                                    offset: Offset(0.5, 0.5),
+                                    blurRadius: 0.5,
+                                    color: Color.fromRGBO(0, 0, 0, 1),
                                   ),
                                 ])),
                       ),
@@ -180,7 +180,7 @@ class HomeScreen extends StatelessWidget {
                     physics: NeverScrollableScrollPhysics(),
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
-                    padding: EdgeInsets.all(10.0),
+                    padding: EdgeInsets.only(left: 10, right: 10),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 10.0,
@@ -195,8 +195,6 @@ class HomeScreen extends StatelessWidget {
                                     snapshot.data.documents[index])));
                           },
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Stack(
                                 children: <Widget>[
@@ -222,36 +220,39 @@ class HomeScreen extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  //How to set background to Text ?
-                                  //Let's move Text inside a Container,then set it's decoration
-                                  Container(
-                                    margin: EdgeInsets.only(top: 105),
-                                    alignment: Alignment.center,
-                                    constraints: const BoxConstraints(
-                                        minWidth: double.infinity),
-                                    decoration: BoxDecoration(
-                                      borderRadius: new BorderRadius.only(
-                                          bottomLeft:
-                                              const Radius.circular(20.0),
-                                          bottomRight:
-                                              const Radius.circular(20.0)),
-                                      color:
-                                          Color.fromRGBO(255, 255, 255, 0.75),
+                                  Positioned(
+                                    bottom: 0,
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      width:
+                                          (MediaQuery.of(context).size.width -
+                                                  30) /
+                                              2,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                            bottomLeft:
+                                                const Radius.circular(20.0),
+                                            bottomRight:
+                                                const Radius.circular(20.0)),
+                                        color:
+                                            Color.fromRGBO(255, 255, 255, 0.80),
+                                      ),
+                                      child: Text(
+                                          snapshot.data.documents[index]
+                                              ["nome"],
+                                          style: TextStyle(
+                                              fontSize: 21.0,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white,
+                                              shadows: <Shadow>[
+                                                Shadow(
+                                                  offset: Offset(1.0, 1.0),
+                                                  blurRadius: 3.0,
+                                                  color: Color.fromARGB(
+                                                      255, 0, 0, 1),
+                                                ),
+                                              ])),
                                     ),
-                                    child: Text(
-                                        snapshot.data.documents[index]["nome"],
-                                        style: TextStyle(
-                                            fontSize: 20.0,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                            shadows: <Shadow>[
-                                              Shadow(
-                                                offset: Offset(1.0, 1.0),
-                                                blurRadius: 3.0,
-                                                color: Color.fromARGB(
-                                                    255, 0, 0, 1),
-                                              ),
-                                            ])),
                                   ),
                                 ],
                               ),
@@ -291,15 +292,6 @@ class ShapesPainter extends CustomPainter {
     path.close();
 
     canvas.drawPath(path, paint);
-
-    // set the color property of the paint
-    paint.color = Colors.deepOrange;
-
-    // center of the canvas is (x,y) => (width/2, height/2)
-    var center = Offset(size.width / 2, size.height / 2);
-
-    // draw the circle with center having radius 75.0
-    //canvas.drawCircle(center, 75.0, paint);
   }
 
   @override
