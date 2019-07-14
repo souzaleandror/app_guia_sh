@@ -137,9 +137,6 @@ class HomeScreen extends StatelessWidget {
                                               ),
                                             ]),
                                         child: CachedNetworkImage(
-                                          placeholder:
-                                              CircularProgressIndicator(),
-                                          errorWidget: Icon(Icons.error),
                                           fadeOutDuration: Duration(seconds: 1),
                                           fadeInDuration: Duration(seconds: 2),
                                           imageUrl: url,
@@ -207,9 +204,6 @@ class HomeScreen extends StatelessWidget {
                                       child: AspectRatio(
                                         aspectRatio: 1.5,
                                         child: CachedNetworkImage(
-                                            placeholder:
-                                                CircularProgressIndicator(),
-                                            errorWidget: Icon(Icons.error),
                                             fadeOutDuration:
                                                 Duration(seconds: 1),
                                             fadeInDuration:

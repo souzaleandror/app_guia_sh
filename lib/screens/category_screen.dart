@@ -12,7 +12,7 @@ class CategoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.orangeAccent,
+        backgroundColor: Colors.orange,
         automaticallyImplyLeading: true,
         title: Text(snapshot["nome"],
             style: TextStyle(
