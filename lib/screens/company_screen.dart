@@ -109,65 +109,6 @@ class _CompanyScreenState extends State<CompanyScreen> {
                   ],
                 ),
               ),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(left: 20),
-                      child: Icon(
-                        Icons.access_time,
-                        color: Colors.black,
-                        size: 30.0,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(20),
-                      child: Text(
-                          snapshot["horario"] ?? "Abre 08:00h fecha 18:00h",
-                          style: TextStyle(
-                              fontSize: 18.0, fontWeight: FontWeight.bold)),
-                    ),
-                  ]),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(left: 20),
-                      child: Icon(
-                        Icons.phone,
-                        color: Colors.black,
-                        size: 30.0,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(20),
-                      child: Text(snapshot["telefone"] ?? "",
-                          style: TextStyle(
-                              fontSize: 18.0, fontWeight: FontWeight.bold)),
-                    ),
-                  ]),
-              Container(
-                color: Colors.white,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    FlatButton(
-                      child: Text(
-                        (snapshot["telefone"] != "" ? "Ligar" : ""),
-                        style: TextStyle(
-                            color: Colors.blue,
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      onPressed: snapshot["telefone"] == ""
-                          ? null
-                          : () {
-                              launch("tel:${snapshot["telefone"]}");
-                            },
-                    )
-                  ],
-                ),
-              ),
               Container(
                 color: Colors.white,
                 child: Row(
@@ -176,43 +117,142 @@ class _CompanyScreenState extends State<CompanyScreen> {
                       Padding(
                         padding: EdgeInsets.only(left: 20),
                         child: Icon(
-                          Icons.thumb_up,
+                          Icons.access_time,
                           color: Colors.black,
                           size: 30.0,
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.all(20),
-                        child: Text(snapshot["social"] ?? "facebook.com/",
+                        child: Text(
+                            snapshot["horario"] ?? "Abre 08:00h fecha 18:00h",
                             style: TextStyle(
                                 fontSize: 18.0, fontWeight: FontWeight.bold)),
                       ),
                     ]),
               ),
               Container(
-                  color: Colors.white,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      FlatButton(
-                        child: Text(
-                          (snapshot["social"] == null ? "" : "Acessar"),
-                          style: TextStyle(
-                              color: Colors.blue,
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.bold),
+                color: Colors.white,
+                child: Stack(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 20),
+                        child: Icon(
+                          Icons.phone,
+                          color: Colors.black,
+                          size: 30.0,
                         ),
-                        onPressed: snapshot["social"] == null
-                            ? null
-                            : () {
-                                launch("https://" + snapshot["social"]);
-                              },
-                      )
-                    ],
-                  )),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 70, top: 5),
+                        child: Text(snapshot["telefone"] ?? "",
+                            style: TextStyle(
+                                fontSize: 18.0, fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Padding(
+                          padding: EdgeInsets.only(right: 5),
+                          child: FlatButton(
+                            child: Text(
+                              (snapshot["telefone"] != "" ? "Ligar" : ""),
+                              style: TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            onPressed: snapshot["telefone"] == ""
+                                ? null
+                                : () {
+                                    launch("tel:${snapshot["telefone"]}");
+                                  },
+                          )),
+                    )
+                  ],
+                ),
+              ),
               Container(
                 color: Colors.white,
-                height: 400,
+                child: Stack(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 20),
+                        child: Icon(
+                          Icons.thumb_up,
+                          color: Colors.black,
+                          size: 30.0,
+                        ),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 70, top: 5),
+                        child: Text(snapshot["social"] ?? "facebook.com/",
+                            style: TextStyle(
+                                fontSize: 18.0, fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Padding(
+                          padding: EdgeInsets.only(right: 5),
+                          child: FlatButton(
+                            child: Text(
+                              (snapshot["social"] == null ? "" : "Acessar"),
+                              style: TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            onPressed: snapshot["social"] == null
+                                ? null
+                                : () {
+                                    launch("https://" + snapshot["social"]);
+                                  },
+                          )),
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                color: Colors.white,
+                padding: EdgeInsets.only(bottom: 20, top: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    GestureDetector(
+                      child: Center(
+                        child: Container(
+                          width: 250,
+                          height: 250,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image: (snapshot["maps"] == null
+                                    ? AssetImage("images/maps.png")
+                                    : CachedNetworkImageProvider(
+                                        snapshot["maps"])),
+                                fit: BoxFit.cover),
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        launch(
+                            "https://www.google.com/maps/search/?api=1&query=${snapshot.data["lat"]},"
+                            "${snapshot.data["long"]}");
+                      },
+                    )
+                  ],
+                ),
               ),
             ],
           ),

@@ -87,7 +87,8 @@ class HomeScreen extends StatelessWidget {
                         padding: EdgeInsets.only(bottom: 10, top: 10),
                         width: MediaQuery.of(context).size.width,
                         color: Colors.orange,
-                        child: Text("Encontramos 30 categorias para você",
+                        child: Text(
+                            "Encontramos ${snapshot.data.documents.length.toString()} categorias para você",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20.0,
