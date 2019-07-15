@@ -3,6 +3,7 @@ import 'dart:io' show Platform;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -26,6 +27,18 @@ class _CompanyScreenState extends State<CompanyScreen> {
   final DocumentSnapshot snapshot;
 
   _CompanyScreenState(this.snapshot);
+
+  String _getNameSocialMedia(String name) {
+    print(name);
+    if (name.isNotEmpty) {
+      name = name.replaceAll(RegExp(r"\s+\b|\b\s"), "");
+      name = name.toLowerCase();
+      print(name);
+      return name;
+    } else {
+      return "";
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -179,6 +192,47 @@ class _CompanyScreenState extends State<CompanyScreen> {
               ),
               Container(
                 color: Colors.white,
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: <
+                        Widget>[
+                  IconButton(
+                      icon: new Icon(FontAwesomeIcons.facebook),
+                      onPressed: () {
+                        if ((snapshot["facebook"] != null) &&
+                            (snapshot["facebook"] != "")) {
+                          launch(snapshot["facebook"]);
+                        } else {
+                          launch("https://facebook.com/" +
+                              _getNameSocialMedia(snapshot["nome"].toString()));
+                        }
+                      }),
+                  IconButton(
+                      icon: new Icon(FontAwesomeIcons.instagram),
+                      onPressed: () {
+                        if ((snapshot["instagram"] != null) &&
+                            (snapshot["instagram"] != "")) {
+                          launch(snapshot["instagram"]);
+                        } else {
+                          launch("https://instagram.com/" +
+                              _getNameSocialMedia(snapshot["nome"].toString()));
+                        }
+                      }),
+                  IconButton(
+                      icon: new Icon(FontAwesomeIcons.twitter),
+                      onPressed: () {
+                        if ((snapshot["twitter"] != null) &&
+                            (snapshot["twitter"] != "")) {
+                          launch(snapshot["twitter"]);
+                        } else {
+                          launch("https://twitter.com/" +
+                              _getNameSocialMedia(snapshot["nome"].toString()));
+                        }
+                      }),
+                ]),
+              ),
+              /*
+              Container(
+                color: Colors.white,
                 child: Stack(
                   children: <Widget>[
                     Align(
@@ -223,6 +277,7 @@ class _CompanyScreenState extends State<CompanyScreen> {
                   ],
                 ),
               ),
+              */
               Container(
                 color: Colors.white,
                 padding: EdgeInsets.only(bottom: 20, top: 20),

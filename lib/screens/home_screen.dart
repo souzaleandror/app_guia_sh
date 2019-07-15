@@ -6,16 +6,12 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
-  final List<String> imgList = [
-    'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
-    'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
-    'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80',
-    'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80',
-    'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
-    'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
-  ];
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
 
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,7 +80,7 @@ class HomeScreen extends StatelessWidget {
                     children: [
                       Container(
                         alignment: Alignment.center,
-                        padding: EdgeInsets.only(bottom: 10, top: 10),
+                        padding: EdgeInsets.only(bottom: 15, top: 10),
                         width: MediaQuery.of(context).size.width,
                         color: Colors.orange,
                         child: Text(
@@ -103,55 +99,79 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Row(
-                    //ROW 1
-                    children: [
-                      Container(
-                        //padding: EdgeInsets.only(top: 10, bottom: 10),
-                        alignment: Alignment.center,
-                        width: MediaQuery.of(context).size.width,
-                        height: 200,
-                        //color: Colors.orange,
-                        child: CustomPaint(
-                            painter: ShapesPainter(),
-                            child: CarouselSlider(
-                              height: 300.0,
-                              items: imgList.map((url) {
-                                return Builder(
-                                  builder: (BuildContext context) {
-                                    return ClipRRect(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      child: Container(
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        margin: EdgeInsets.symmetric(
-                                            horizontal: 5.0),
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(1.0)),
-                                            color: Colors.grey[100],
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.black,
-                                                blurRadius: 0.5,
-                                                spreadRadius: 0.5,
+                  FutureBuilder<QuerySnapshot>(
+                      future: Firestore.instance
+                          .collection("promover")
+                          .getDocuments(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Container(
+                            height: 200.0,
+                            alignment: Alignment.center,
+                            child: CircularProgressIndicator(
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(Colors.white),
+                            ),
+                          );
+                        } else {
+                          return Row(
+                            children: [
+                              Container(
+                                //padding: EdgeInsets.only(top: 10, bottom: 10),
+                                alignment: Alignment.center,
+                                width: MediaQuery.of(context).size.width,
+                                height: 200,
+                                //color: Colors.orange,
+                                child: CustomPaint(
+                                    painter: ShapesPainter(),
+                                    child: CarouselSlider(
+                                      height: 300.0,
+                                      items: snapshot.data.documents.map((url) {
+                                        return Builder(
+                                          builder: (BuildContext context) {
+                                            return ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                              child: Container(
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                margin: EdgeInsets.symmetric(
+                                                    horizontal: 5.0),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                1.0)),
+                                                    color: Colors.grey[100],
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: Colors.black,
+                                                        blurRadius: 0.5,
+                                                        spreadRadius: 0.5,
+                                                      ),
+                                                    ]),
+                                                child: CachedNetworkImage(
+                                                  placeholderFadeInDuration:
+                                                      Duration(seconds: 10),
+                                                  fadeOutDuration:
+                                                      Duration(seconds: 1),
+                                                  fadeInDuration:
+                                                      Duration(seconds: 1),
+                                                  imageUrl: url["image"],
+                                                  fit: BoxFit.cover,
+                                                ),
                                               ),
-                                            ]),
-                                        child: CachedNetworkImage(
-                                          fadeOutDuration: Duration(seconds: 1),
-                                          fadeInDuration: Duration(seconds: 2),
-                                          imageUrl: url,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                );
-                              }).toList(),
-                            )),
-                      ),
-                    ],
-                  ),
+                                            );
+                                          },
+                                        );
+                                      }).toList(),
+                                    )),
+                              ),
+                            ],
+                          );
+                        }
+                      }),
                   Row(
                     //ROW 1
                     children: [

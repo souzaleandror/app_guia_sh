@@ -33,7 +33,10 @@ class _SplashScreen extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        Image.asset("images/splash.jpeg", fit: BoxFit.cover, height: 1000.0),
+        Image.asset("images/splash.jpeg", fit: BoxFit.cover),
+        Center(
+          child: CircularProgressIndicator(),
+        )
       ],
     );
   }
