@@ -78,7 +78,12 @@ class CategoryScreen extends StatelessWidget {
                     children: <Widget>[
                       Text(company["nome"] ?? "",
                           style: TextStyle(
-                              fontSize: 22.0, fontWeight: FontWeight.bold)),
+                              fontSize: ((MediaQuery.of(context).orientation ==
+                                          Orientation.portrait) &&
+                                      company["nome"].length >= 26)
+                                  ? 18.0
+                                  : 22,
+                              fontWeight: FontWeight.bold)),
                       Text(company["telefone"] ?? "",
                           style: TextStyle(fontSize: 12.0)),
                       Text(company["endereco"] ?? "",

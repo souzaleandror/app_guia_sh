@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -29,20 +30,32 @@ class _CompanyScreenState extends State<CompanyScreen> {
   _CompanyScreenState(this.snapshot);
 
   String _getNameSocialMedia(String name) {
-    print(name);
     if (name.isNotEmpty) {
       name = name.replaceAll(RegExp(r"\s+\b|\b\s"), "");
       name = name.toLowerCase();
-      print(name);
       return name;
     } else {
       return "";
     }
   }
 
+  bool _getCompanyIsOpen() {
+    final now = new DateTime.now();
+    final String actual_date = DateFormat("yyyy-MM-dd").format(now);
+    final date_open = DateTime.parse(actual_date + " 08:00:00");
+    final date_close = DateTime.parse(actual_date + " 18:00:00");
+
+    if ((now.isAfter(date_open)) && (now.isBefore(date_close)))
+      return true;
+    else
+      return false;
+  }
+
   @override
   Widget build(BuildContext context) {
+    _getCompanyIsOpen();
     return Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: (snapshot["color"] == null
               ? Colors.orange
@@ -51,7 +64,11 @@ class _CompanyScreenState extends State<CompanyScreen> {
           title: Text(snapshot["nome"],
               style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 30.0,
+                  fontSize: ((MediaQuery.of(context).orientation ==
+                              Orientation.portrait) &&
+                          snapshot["nome"].length >= 15)
+                      ? 22.0
+                      : 30.0,
                   color: Colors.white,
                   shadows: <Shadow>[
                     Shadow(
@@ -102,9 +119,10 @@ class _CompanyScreenState extends State<CompanyScreen> {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
-                              image: CachedNetworkImageProvider(
-                                  snapshot["images"]),
-                              fit: BoxFit.cover),
+                            image:
+                                CachedNetworkImageProvider(snapshot["images"]),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),
@@ -122,27 +140,17 @@ class _CompanyScreenState extends State<CompanyScreen> {
                   ],
                 ),
               ),
-              Container(
-                color: Colors.white,
+              Padding(
+                padding: EdgeInsets.only(top: 10),
                 child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(left: 20),
-                        child: Icon(
-                          Icons.access_time,
-                          color: Colors.black,
-                          size: 30.0,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(20),
-                        child: Text(
-                            snapshot["horario"] ?? "Abre 08:00h fecha 18:00h",
-                            style: TextStyle(
-                                fontSize: 18.0, fontWeight: FontWeight.bold)),
-                      ),
-                    ]),
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                        snapshot["description"] ??
+                            "Venha comer o melhor hamburger da cidade!",
+                        style: TextStyle(fontSize: 18.0)),
+                  ],
+                ),
               ),
               Container(
                 color: Colors.white,
@@ -151,10 +159,11 @@ class _CompanyScreenState extends State<CompanyScreen> {
                     Align(
                       alignment: Alignment.bottomLeft,
                       child: Padding(
-                        padding: EdgeInsets.only(left: 20),
+                        padding: EdgeInsets.only(left: 10, top: 20),
                         child: Icon(
-                          Icons.phone,
-                          color: Colors.black,
+                          Icons.access_time,
+                          color:
+                              _getCompanyIsOpen() ? Colors.green : Colors.red,
                           size: 30.0,
                         ),
                       ),
@@ -162,25 +171,69 @@ class _CompanyScreenState extends State<CompanyScreen> {
                     Align(
                       alignment: Alignment.bottomLeft,
                       child: Padding(
-                        padding: EdgeInsets.only(left: 70, top: 5),
-                        child: Text(snapshot["telefone"] ?? "",
+                        padding: EdgeInsets.only(left: 50, top: 25),
+                        child: Text(
+                            snapshot["horario"] ?? "Abre 08:00h / Fecha 18:00h",
                             style: TextStyle(
-                                fontSize: 18.0, fontWeight: FontWeight.bold)),
+                                fontSize: 20.0, fontWeight: FontWeight.bold)),
                       ),
                     ),
                     Align(
                       alignment: Alignment.topRight,
                       child: Padding(
-                          padding: EdgeInsets.only(right: 5),
+                        padding: EdgeInsets.only(right: 15, top: 28),
+                        child: Text(
+                            (_getCompanyIsOpen() ? "Aberto" : "Fechado"),
+                            style: TextStyle(
+                                fontSize: 18.0,
+                                color: (_getCompanyIsOpen()
+                                    ? Colors.green
+                                    : Colors.red))),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                color: Colors.white,
+                child: Stack(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 10, top: 20),
+                        child: Icon(
+                          Icons.phone,
+                          color:
+                              _getCompanyIsOpen() ? Colors.green : Colors.red,
+                          size: 30.0,
+                        ),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 50, top: 25),
+                        child: Text(snapshot["telefone"] ?? "",
+                            style: TextStyle(
+                                fontSize: 20.0, fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Padding(
+                          padding: EdgeInsets.only(right: 2, top: 10),
                           child: FlatButton(
                             child: Text(
                               (snapshot["telefone"] != "" ? "Ligar" : ""),
                               style: TextStyle(
-                                  color: Colors.blue,
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold),
+                                  color: _getCompanyIsOpen()
+                                      ? Colors.green
+                                      : Colors.red,
+                                  fontSize: 18.0),
                             ),
-                            onPressed: snapshot["telefone"] == ""
+                            onPressed: ((snapshot["telefone"] == "") ||
+                                    (_getCompanyIsOpen()))
                                 ? null
                                 : () {
                                     launch("tel:${snapshot["telefone"]}");
@@ -192,56 +245,15 @@ class _CompanyScreenState extends State<CompanyScreen> {
               ),
               Container(
                 color: Colors.white,
-                child:
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: <
-                        Widget>[
-                  IconButton(
-                      icon: new Icon(FontAwesomeIcons.facebook),
-                      onPressed: () {
-                        if ((snapshot["facebook"] != null) &&
-                            (snapshot["facebook"] != "")) {
-                          launch(snapshot["facebook"]);
-                        } else {
-                          launch("https://facebook.com/" +
-                              _getNameSocialMedia(snapshot["nome"].toString()));
-                        }
-                      }),
-                  IconButton(
-                      icon: new Icon(FontAwesomeIcons.instagram),
-                      onPressed: () {
-                        if ((snapshot["instagram"] != null) &&
-                            (snapshot["instagram"] != "")) {
-                          launch(snapshot["instagram"]);
-                        } else {
-                          launch("https://instagram.com/" +
-                              _getNameSocialMedia(snapshot["nome"].toString()));
-                        }
-                      }),
-                  IconButton(
-                      icon: new Icon(FontAwesomeIcons.twitter),
-                      onPressed: () {
-                        if ((snapshot["twitter"] != null) &&
-                            (snapshot["twitter"] != "")) {
-                          launch(snapshot["twitter"]);
-                        } else {
-                          launch("https://twitter.com/" +
-                              _getNameSocialMedia(snapshot["nome"].toString()));
-                        }
-                      }),
-                ]),
-              ),
-              /*
-              Container(
-                color: Colors.white,
                 child: Stack(
                   children: <Widget>[
                     Align(
                       alignment: Alignment.bottomLeft,
                       child: Padding(
-                        padding: EdgeInsets.only(left: 20),
+                        padding: EdgeInsets.only(left: 10, top: 20),
                         child: Icon(
-                          Icons.thumb_up,
-                          color: Colors.black,
+                          FontAwesomeIcons.whatsapp,
+                          color: Colors.green,
                           size: 30.0,
                         ),
                       ),
@@ -249,35 +261,112 @@ class _CompanyScreenState extends State<CompanyScreen> {
                     Align(
                       alignment: Alignment.bottomLeft,
                       child: Padding(
-                        padding: EdgeInsets.only(left: 70, top: 5),
-                        child: Text(snapshot["social"] ?? "facebook.com/",
+                        padding: EdgeInsets.only(left: 50, top: 25),
+                        child: Text(snapshot["telefone"] ?? "",
                             style: TextStyle(
-                                fontSize: 18.0, fontWeight: FontWeight.bold)),
+                                fontSize: 20.0, fontWeight: FontWeight.bold)),
                       ),
                     ),
                     Align(
                       alignment: Alignment.topRight,
                       child: Padding(
-                          padding: EdgeInsets.only(right: 5),
+                          padding: EdgeInsets.only(right: 2, top: 10),
                           child: FlatButton(
                             child: Text(
-                              (snapshot["social"] == null ? "" : "Acessar"),
-                              style: TextStyle(
-                                  color: Colors.blue,
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold),
+                              (snapshot["telefone"] != "" ? "Ligar" : ""),
+                              style:
+                                  TextStyle(color: Colors.blue, fontSize: 18.0),
                             ),
-                            onPressed: snapshot["social"] == null
+                            onPressed: snapshot["telefone"] == ""
                                 ? null
                                 : () {
-                                    launch("https://" + snapshot["social"]);
+                                    launch("tel:${snapshot["telefone"]}");
+                                  },
+                          )),
+                    ),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Padding(
+                          padding: EdgeInsets.only(right: 48, top: 10),
+                          child: FlatButton(
+                            child: Text(
+                              (snapshot["telefone"] != "" ? "Add / " : ""),
+                              style:
+                                  TextStyle(color: Colors.blue, fontSize: 18.0),
+                            ),
+                            onPressed: snapshot["telefone"] == ""
+                                ? null
+                                : () {
+                                    launch("tel:${snapshot["telefone"]}");
                                   },
                           )),
                     )
                   ],
                 ),
               ),
-              */
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                color: Colors.white,
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      IconButton(
+                          icon: new Icon(
+                            FontAwesomeIcons.facebook,
+                            size: 40,
+                            color:
+                                getColorSocialMedia(socialMedia_: "facebook"),
+                          ),
+                          onPressed: () {
+                            if ((snapshot["facebook"] != null) &&
+                                (snapshot["facebook"] != "")) {
+                              launch(snapshot["facebook"]);
+                            } else {
+                              launch("https://facebook.com/" +
+                                  _getNameSocialMedia(
+                                      snapshot["nome"].toString()));
+                            }
+                          }),
+                      IconButton(
+                          icon: new Icon(
+                            FontAwesomeIcons.instagram,
+                            size: 40,
+                            color:
+                                getColorSocialMedia(socialMedia_: "instagram"),
+                          ),
+                          onPressed: () {
+                            if ((snapshot["instagram"] != null) &&
+                                (snapshot["instagram"] != "")) {
+                              launch(snapshot["instagram"]);
+                            } else {
+                              launch("https://instagram.com/" +
+                                  _getNameSocialMedia(
+                                      snapshot["nome"].toString()));
+                            }
+                          }),
+                      IconButton(
+                          icon: new Icon(
+                            FontAwesomeIcons.twitter,
+                            size: 40,
+                            color: getColorSocialMedia(socialMedia_: "twitter"),
+                          ),
+                          onPressed: () {
+                            if ((snapshot["twitter"] != null) &&
+                                (snapshot["twitter"] != "")) {
+                              launch(snapshot["twitter"]);
+                            } else {
+                              launch("https://twitter.com/" +
+                                  _getNameSocialMedia(
+                                      snapshot["nome"].toString()));
+                            }
+                          }),
+                    ]),
+              ),
+              SizedBox(
+                height: 10,
+              ),
               Container(
                 color: Colors.white,
                 padding: EdgeInsets.only(bottom: 20, top: 20),
@@ -312,6 +401,35 @@ class _CompanyScreenState extends State<CompanyScreen> {
             ],
           ),
         ));
+  }
+}
+
+Color getColorSocialMedia({@required String socialMedia_}) {
+  switch (socialMedia_) {
+    case "facebook":
+      return Color(0xff1877f2);
+      break;
+    case "instagram":
+      return Color(0xffC13584);
+      break;
+    case "twitter":
+      return Color(0xff1da1f2);
+      break;
+    case "youtube":
+      return Color(0xffff0000);
+      break;
+    case "linkedin":
+      return Color(0xff007bb5);
+      break;
+    case "link":
+      return Color(0xffa6b1b7);
+      break;
+    case "extra":
+      return Color(0xff35465d);
+      break;
+    default:
+      return Color(0xff000000);
+      break;
   }
 }
 
