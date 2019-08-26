@@ -60,6 +60,9 @@ flutter:
      - images/splash.jpeg
      - images/img3.png
      - images/maps.png
+     - images/open1.png
+     - images/open2.png
+     - images/closed.png
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
 

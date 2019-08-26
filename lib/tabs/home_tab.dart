@@ -18,20 +18,6 @@ class HomeTab extends StatelessWidget {
         backgroundColor: Colors.orange,
         elevation: 0,
         centerTitle: true,
-        title: Text(
-          "Bem Vindo a",
-          style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 40.0,
-              color: Colors.white,
-              shadows: <Shadow>[
-                Shadow(
-                  offset: Offset(1.0, 1.0),
-                  blurRadius: 3.0,
-                  color: Color.fromARGB(255, 0, 0, 0),
-                ),
-              ]),
-        ),
       ),
       body: FutureBuilder<QuerySnapshot>(
           future: Firestore.instance.collection("categories").getDocuments(),
@@ -50,6 +36,33 @@ class HomeTab extends StatelessWidget {
                         alignment: Alignment.center,
                         width: MediaQuery.of(context).size.width,
                         color: Colors.orange,
+                        child: Text(
+                          "Bem Vindo a",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 30.0,
+                              color: Colors.white,
+                              shadows: <Shadow>[
+                                Shadow(
+                                  offset: Offset(1.0, 1.0),
+                                  blurRadius: 3.0,
+                                  color: Color.fromARGB(255, 0, 0, 0),
+                                ),
+                              ]),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    //ROW 1
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.orange),
+                          color: Colors.orange,
+                        ),
+                        alignment: Alignment.center,
+                        width: MediaQuery.of(context).size.width,
                         child: Text(
                           "Santa Helena - Parana",
                           style: TextStyle(
@@ -71,10 +84,13 @@ class HomeTab extends StatelessWidget {
                     //ROW 1
                     children: [
                       Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.orange),
+                          color: Colors.orange,
+                        ),
                         alignment: Alignment.center,
                         padding: EdgeInsets.only(bottom: 15, top: 10),
                         width: MediaQuery.of(context).size.width,
-                        color: Colors.orange,
                         child: Text(
                             "Encontramos ${snapshot.data.documents.length.toString()} categorias para você",
                             style: TextStyle(

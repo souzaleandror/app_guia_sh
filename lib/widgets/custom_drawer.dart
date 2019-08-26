@@ -1,3 +1,4 @@
+import 'package:app_guia_sh/screens/login_screen.dart';
 import 'package:app_guia_sh/tiles/drawer_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -68,7 +69,10 @@ class CustomDrawer extends StatelessWidget {
                                     ),
                                   ]),
                             ),
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => LoginScreen()));
+                            },
                           )
                         ],
                       ),
@@ -77,7 +81,16 @@ class CustomDrawer extends StatelessWidget {
                 ),
               ),
               Divider(),
-              DrawerTile(Icons.home, "Home", pageController, 0),
+              DrawerTile(Icons.favorite, "Meus Favoritos", pageController, 0),
+              Divider(),
+              DrawerTile(Icons.new_releases, "Destaques", pageController, 0),
+              Divider(),
+              DrawerTile(FontAwesomeIcons.bell, "Eventos / Festivais",
+                  pageController, 0),
+              Divider(),
+              DrawerTile(Icons.record_voice_over, "Contato", pageController, 0),
+              Divider(),
+              DrawerTile(Icons.poll, "Avaliar", pageController, 0),
               Divider(),
             ],
           ),

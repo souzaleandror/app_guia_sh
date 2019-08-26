@@ -1,4 +1,5 @@
 import 'dart:io' show Platform;
+import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -19,6 +20,13 @@ class CompanyScreen extends StatefulWidget {
 }
 
 class _CompanyScreenState extends State<CompanyScreen> {
+  final DocumentSnapshot snapshot;
+  final Random rnd = Random();
+  int min = 1;
+  int max = 5;
+
+  _CompanyScreenState(this.snapshot);
+
   final List<String> imgList = [
     'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
     'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
@@ -34,10 +42,6 @@ class _CompanyScreenState extends State<CompanyScreen> {
     int colorint = int.parse(colornew);
     return colorint;
   }
-
-  final DocumentSnapshot snapshot;
-
-  _CompanyScreenState(this.snapshot);
 
   String _getNameSocialMedia(String name) {
     if (name.isNotEmpty) {
@@ -63,7 +67,9 @@ class _CompanyScreenState extends State<CompanyScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var num = min + rnd.nextInt(max - min);
     _getCompanyIsOpen();
+
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -115,6 +121,21 @@ class _CompanyScreenState extends State<CompanyScreen> {
                       painter: ShapesPainter(context),
                     ),
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(right: 8),
+                        child: Icon(
+                          (rnd.nextBool() == true
+                              ? Icons.favorite_border
+                              : Icons.favorite),
+                          color: Colors.red,
+                          size: 30,
+                        ),
+                      ),
+                    ],
+                  ),
                   Container(
                     padding: EdgeInsets.only(
                         top: (Platform.isAndroid) &&
@@ -137,10 +158,22 @@ class _CompanyScreenState extends State<CompanyScreen> {
                       ),
                     ),
                   ),
+                  Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.only(top: 310),
+                    child: Image.asset(
+                      (_getCompanyIsOpen()
+                          ? "images/open2.png"
+                          : "images/closed.png"),
+                      width: 80,
+                      height: 80,
+                      color: (_getCompanyIsOpen() ? Colors.green : Colors.red),
+                    ),
+                  ),
                 ],
               ),
               Padding(
-                padding: EdgeInsets.only(top: 20),
+                padding: EdgeInsets.only(top: 1),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -151,7 +184,7 @@ class _CompanyScreenState extends State<CompanyScreen> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 10),
+                padding: EdgeInsets.only(top: 10, bottom: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -159,6 +192,36 @@ class _CompanyScreenState extends State<CompanyScreen> {
                         style: TextStyle(fontSize: 18.0)),
                   ],
                 ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(
+                    Icons.star,
+                    size: 60,
+                    color: Colors.yellow,
+                  ),
+                  Icon(
+                    (num >= 2 ? Icons.star : Icons.star_border),
+                    size: 60,
+                    color: Colors.yellow,
+                  ),
+                  Icon(
+                    (num >= 3 ? Icons.star : Icons.star_border),
+                    size: 60,
+                    color: Colors.yellow,
+                  ),
+                  Icon(
+                    (num >= 4 ? Icons.star : Icons.star_border),
+                    size: 60,
+                    color: Colors.yellow,
+                  ),
+                  Icon(
+                    (num == 5 ? Icons.star : Icons.star_border),
+                    size: 60,
+                    color: Colors.yellow,
+                  ),
+                ],
               ),
               Container(
                 color: Colors.white,
@@ -186,19 +249,19 @@ class _CompanyScreenState extends State<CompanyScreen> {
                                 fontSize: 20.0, fontWeight: FontWeight.bold)),
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(right: 15, top: 28),
-                        child: Text(
-                            (_getCompanyIsOpen() ? "Aberto" : "Fechado"),
-                            style: TextStyle(
-                                fontSize: 18.0,
-                                color: (_getCompanyIsOpen()
-                                    ? Colors.green
-                                    : Colors.red))),
-                      ),
-                    )
+//                    Align(
+//                      alignment: Alignment.topRight,
+//                      child: Padding(
+//                        padding: EdgeInsets.only(right: 15, top: 28),
+//                        child: Text(
+//                            (_getCompanyIsOpen() ? "Aberto" : "Fechado"),
+//                            style: TextStyle(
+//                                fontSize: 18.0,
+//                                color: (_getCompanyIsOpen()
+//                                    ? Colors.green
+//                                    : Colors.red))),
+//                      ),
+//                    )
                   ],
                 ),
               ),
@@ -419,6 +482,26 @@ class _CompanyScreenState extends State<CompanyScreen> {
               ),
               SizedBox(
                 height: 20,
+              ),
+              Column(
+                children: <Widget>[
+                  Icon(
+                    Icons.location_on,
+                    color: Colors.blueAccent,
+                    size: 30.0,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: Text(snapshot.data["endereco"].toString() ?? "",
+                        softWrap: true,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontSize: 20.0, color: Colors.black)),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
               ),
               Container(
                 color: Colors.white,
