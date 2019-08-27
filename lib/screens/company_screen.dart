@@ -22,8 +22,8 @@ class CompanyScreen extends StatefulWidget {
 class _CompanyScreenState extends State<CompanyScreen> {
   final DocumentSnapshot snapshot;
   final Random rnd = Random();
-  int min = 1;
-  int max = 5;
+  final int min = 1;
+  final int max = 5;
 
   _CompanyScreenState(this.snapshot);
 
@@ -163,11 +163,10 @@ class _CompanyScreenState extends State<CompanyScreen> {
                     padding: EdgeInsets.only(top: 310),
                     child: Image.asset(
                       (_getCompanyIsOpen()
-                          ? "images/open2.png"
-                          : "images/closed.png"),
+                          ? "images/aberto.png"
+                          : "images/fechado.png"),
                       width: 80,
                       height: 80,
-                      color: (_getCompanyIsOpen() ? Colors.green : Colors.red),
                     ),
                   ),
                 ],
