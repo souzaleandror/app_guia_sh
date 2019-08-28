@@ -1,4 +1,7 @@
+import 'package:app_guia_sh/screens/about_us_screen.dart';
+import 'package:app_guia_sh/screens/config_screen.dart';
 import 'package:app_guia_sh/screens/login_screen.dart';
+import 'package:app_guia_sh/tabs/contact_tab.dart';
 import 'package:app_guia_sh/tiles/drawer_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -81,16 +84,16 @@ class CustomDrawer extends StatelessWidget {
                 ),
               ),
               Divider(),
-              DrawerTile(Icons.favorite, "Meus Favoritos", pageController, 0),
+              DrawerTile(Icons.favorite, "Meus Favoritos", pageController, 1),
               Divider(),
-              DrawerTile(Icons.new_releases, "Destaques", pageController, 0),
+              DrawerTile(Icons.new_releases, "Destaques", pageController, 2),
               Divider(),
               DrawerTile(FontAwesomeIcons.bell, "Eventos / Festivais",
-                  pageController, 0),
+                  pageController, 3),
               Divider(),
-              DrawerTile(Icons.record_voice_over, "Contato", pageController, 0),
+              DrawerTile(Icons.record_voice_over, "Contato", pageController, 4),
               Divider(),
-              DrawerTile(Icons.poll, "Avaliar", pageController, 0),
+              DrawerTile(Icons.poll, "Avaliar", pageController, -1),
               Divider(),
             ],
           ),
@@ -103,7 +106,11 @@ class CustomDrawer extends StatelessWidget {
                 color: Colors.orange,
                 size: 25,
               ),
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => ConfigScreen()));
+              },
             ),
           ),
           Container(
@@ -133,7 +140,11 @@ class CustomDrawer extends StatelessWidget {
                 color: Colors.orange,
                 size: 25,
               ),
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => ContactTab(pageController)));
+              },
             ),
           ),
           Container(
@@ -145,7 +156,11 @@ class CustomDrawer extends StatelessWidget {
                 color: Colors.orange,
                 size: 25,
               ),
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => AboutUsScreen()));
+              },
             ),
           )
         ],

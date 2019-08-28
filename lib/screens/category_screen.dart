@@ -33,7 +33,9 @@ class CategoryScreen extends StatelessWidget {
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Icon(FontAwesomeIcons.hotdog),
+            child: Icon((snapshot["nome"] != null && snapshot["nome"] != ""
+                ? _getIconDataAppBar(snapshot["nome"].toString().toLowerCase())
+                : null)),
           ),
         ],
       ),
@@ -61,6 +63,48 @@ class CategoryScreen extends StatelessWidget {
             }
           }),
     );
+  }
+
+  IconData _getIconDataAppBar(String icon) {
+    if (icon != null && icon != "") {
+      switch (icon) {
+        case "lanchonete":
+          return FontAwesomeIcons.hotdog;
+          break;
+        case "academia":
+          return FontAwesomeIcons.weight;
+          break;
+        case "hotel":
+          return FontAwesomeIcons.hotel;
+          break;
+        case "informática":
+          return FontAwesomeIcons.desktop;
+          break;
+        case "roupas":
+          return FontAwesomeIcons.tshirt;
+          break;
+        case "moveis":
+          return FontAwesomeIcons.couch;
+          break;
+        case "mecânico":
+          return FontAwesomeIcons.screwdriver;
+          break;
+        case "restaurantes":
+          return FontAwesomeIcons.utensils;
+          break;
+        case "advocacia":
+          return FontAwesomeIcons.userTie;
+          break;
+        case "concessionária":
+          return FontAwesomeIcons.carAlt;
+          break;
+        default:
+          return FontAwesomeIcons.star;
+          break;
+      }
+    } else {
+      return FontAwesomeIcons.star;
+    }
   }
 
   Widget _contactCard(BuildContext context, DocumentSnapshot company) {
@@ -101,7 +145,7 @@ class CategoryScreen extends StatelessWidget {
               Padding(
                   padding: EdgeInsets.only(left: 10),
                   child: Container(
-                    width: 180,
+                    width: MediaQuery.of(context).size.width * 0.50,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[

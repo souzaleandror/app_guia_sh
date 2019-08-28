@@ -1,4 +1,7 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DrawerTile extends StatelessWidget {
   final IconData icon;
@@ -13,10 +16,18 @@ class DrawerTile extends StatelessWidget {
     return Material(
         color: Colors.transparent,
         child: InkWell(
-            onTap: () {
-              Navigator.of(context).pop();
-              controller.jumpToPage(page);
-            },
+            onTap: (page != -1
+                ? () {
+                    Navigator.of(context).pop();
+                    controller.jumpToPage(page);
+                  }
+                : () {
+                    if (Platform.isAndroid) {
+                      launch("https://play.google.com/store");
+                    } else {
+                      launch("https://www.apple.com/ios/app-store/");
+                    }
+                  }),
             child: Container(
               height: 60.0,
               child: Row(

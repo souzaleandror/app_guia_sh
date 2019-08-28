@@ -68,8 +68,6 @@ class _CompanyScreenState extends State<CompanyScreen> {
   @override
   Widget build(BuildContext context) {
     var num = min + rnd.nextInt(max - min);
-    _getCompanyIsOpen();
-
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
