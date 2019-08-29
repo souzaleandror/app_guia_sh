@@ -1,6 +1,7 @@
 import 'dart:io' show Platform;
 import 'dart:math';
 
+import 'package:app_guia_sh/screens/login_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -12,29 +13,24 @@ import 'package:url_launcher/url_launcher.dart';
 
 class CompanyScreen extends StatefulWidget {
   final DocumentSnapshot snapshot;
+  final String category;
 
-  CompanyScreen(this.snapshot);
+  CompanyScreen(this.snapshot, this.category);
 
   @override
-  _CompanyScreenState createState() => _CompanyScreenState(snapshot);
+  _CompanyScreenState createState() => _CompanyScreenState(snapshot, category);
 }
 
 class _CompanyScreenState extends State<CompanyScreen> {
   final DocumentSnapshot snapshot;
+  final String category;
   final Random rnd = Random();
   final int min = 1;
   final int max = 5;
 
-  _CompanyScreenState(this.snapshot);
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  final List<String> imgList = [
-    'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
-    'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
-    'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80',
-    'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80',
-    'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
-    'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
-  ];
+  _CompanyScreenState(this.snapshot, this.category);
 
   hexColor(String colorhexcode) {
     String colornew = "0xff" + colorhexcode;
@@ -68,7 +64,10 @@ class _CompanyScreenState extends State<CompanyScreen> {
   @override
   Widget build(BuildContext context) {
     var num = min + rnd.nextInt(max - min);
+    num = 4;
+
     return Scaffold(
+        key: _scaffoldKey,
         backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: (snapshot["color"] == null
@@ -124,12 +123,32 @@ class _CompanyScreenState extends State<CompanyScreen> {
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(right: 8),
-                        child: Icon(
-                          (rnd.nextBool() == true
-                              ? Icons.favorite_border
-                              : Icons.favorite),
-                          color: Colors.red,
-                          size: 30,
+                        child: InkWell(
+                          child: Icon(
+                            (rnd.nextBool() == true
+                                ? Icons.favorite_border
+                                : Icons.favorite),
+                            color: Colors.redAccent,
+                            size: 30,
+                          ),
+                          onTap: () {
+                            _scaffoldKey.currentState.showSnackBar(SnackBar(
+                              content: Text(
+                                'Precisa estar logado para votar !',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              duration: Duration(seconds: 6),
+                              backgroundColor: Colors.red,
+                              action: SnackBarAction(
+                                textColor: Colors.white,
+                                label: "Fazer Login\nCadastra-se",
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => LoginScreen()));
+                                },
+                              ),
+                            ));
+                          },
                         ),
                       ),
                     ],
@@ -190,35 +209,55 @@ class _CompanyScreenState extends State<CompanyScreen> {
                   ],
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Icon(
-                    Icons.star,
-                    size: 60,
-                    color: Colors.yellow,
-                  ),
-                  Icon(
-                    (num >= 2 ? Icons.star : Icons.star_border),
-                    size: 60,
-                    color: Colors.yellow,
-                  ),
-                  Icon(
-                    (num >= 3 ? Icons.star : Icons.star_border),
-                    size: 60,
-                    color: Colors.yellow,
-                  ),
-                  Icon(
-                    (num >= 4 ? Icons.star : Icons.star_border),
-                    size: 60,
-                    color: Colors.yellow,
-                  ),
-                  Icon(
-                    (num == 5 ? Icons.star : Icons.star_border),
-                    size: 60,
-                    color: Colors.yellow,
-                  ),
-                ],
+              InkWell(
+                onTap: () {
+                  _scaffoldKey.currentState.showSnackBar(SnackBar(
+                    content: Text(
+                      'Precisa estar logado para favoretizar !',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    duration: Duration(seconds: 6),
+                    backgroundColor: Colors.red,
+                    action: SnackBarAction(
+                      textColor: Colors.white,
+                      label: "Fazer Login\nCadastra-se",
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => LoginScreen()));
+                      },
+                    ),
+                  ));
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.star,
+                      size: 60,
+                      color: Colors.yellow,
+                    ),
+                    Icon(
+                      (num >= 2 ? Icons.star : Icons.star_border),
+                      size: 60,
+                      color: Colors.yellow,
+                    ),
+                    Icon(
+                      (num >= 3 ? Icons.star : Icons.star_border),
+                      size: 60,
+                      color: Colors.yellow,
+                    ),
+                    Icon(
+                      (num >= 4 ? Icons.star : Icons.star_border),
+                      size: 60,
+                      color: Colors.yellow,
+                    ),
+                    Icon(
+                      (num == 5 ? Icons.star : Icons.star_border),
+                      size: 60,
+                      color: Colors.yellow,
+                    ),
+                  ],
+                ),
               ),
               Container(
                 color: Colors.white,
@@ -432,51 +471,112 @@ class _CompanyScreenState extends State<CompanyScreen> {
                           }),
                     ]),
               ),
-              Padding(
-                padding: EdgeInsets.only(top: 20, bottom: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text("          Nossos\nProdutos / Serviços",
-                        style: TextStyle(
-                            fontSize: 28.0, fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              ),
-              CarouselSlider(
-                height: 250.0,
-                items: imgList.map((url) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return ClipRRect(
-                        borderRadius: BorderRadius.circular(20.0),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          margin: EdgeInsets.symmetric(horizontal: 5.0),
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(1.0)),
-                              color: Colors.grey[100],
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black,
-                                  blurRadius: 0.5,
-                                  spreadRadius: 0.5,
-                                ),
-                              ]),
-                          child: CachedNetworkImage(
-                            placeholderFadeInDuration: Duration(seconds: 10),
-                            fadeOutDuration: Duration(seconds: 1),
-                            fadeInDuration: Duration(seconds: 1),
-                            imageUrl: url,
-                            fit: BoxFit.cover,
-                          ),
+              FutureBuilder<QuerySnapshot>(
+                  future: Firestore.instance
+                      .collection("categories")
+                      .document(category)
+                      .collection("empresa")
+                      .document(snapshot.documentID)
+                      .collection("image")
+                      .getDocuments(),
+                  builder: (context, snap) {
+                    if (!snap.hasData) {
+                      return Container(
+                        height: 200.0,
+                        alignment: Alignment.center,
+                        child: CircularProgressIndicator(
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.white),
                         ),
                       );
-                    },
-                  );
-                }).toList(),
-              ),
+                    } else {
+                      if (snap.data.documents.isNotEmpty) {
+                        return Container(
+                          child: Column(
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.only(top: 20, bottom: 15),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                        "          Nossos\nProdutos / Serviços",
+                                        style: TextStyle(
+                                            fontSize: 28.0,
+                                            fontWeight: FontWeight.bold)),
+                                  ],
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  Container(
+                                    //padding: EdgeInsets.only(top: 10, bottom: 10),
+                                    alignment: Alignment.center,
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 200,
+                                    //color: Colors.orange,
+                                    child: CarouselSlider(
+                                      height: 300.0,
+                                      aspectRatio: 16 / 9,
+                                      viewportFraction: 0.8,
+                                      autoPlay: true,
+                                      autoPlayInterval: Duration(seconds: 3),
+                                      autoPlayAnimationDuration:
+                                          Duration(milliseconds: 800),
+                                      pauseAutoPlayOnTouch:
+                                          Duration(seconds: 10),
+                                      items: snap.data.documents.map((url) {
+                                        return Builder(
+                                          builder: (BuildContext context) {
+                                            return ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                              child: Container(
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                margin: EdgeInsets.symmetric(
+                                                    horizontal: 5.0),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                1.0)),
+                                                    color: Colors.grey[100],
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: Colors.black,
+                                                        blurRadius: 0.5,
+                                                        spreadRadius: 0.5,
+                                                      ),
+                                                    ]),
+                                                child: CachedNetworkImage(
+                                                  placeholderFadeInDuration:
+                                                      Duration(seconds: 10),
+                                                  fadeOutDuration:
+                                                      Duration(seconds: 1),
+                                                  fadeInDuration:
+                                                      Duration(seconds: 1),
+                                                  imageUrl: url["image"],
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      }).toList(),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        );
+                      } else {
+                        return Container();
+                      }
+                    }
+                  }),
               SizedBox(
                 height: 20,
               ),
@@ -595,6 +695,28 @@ class ShapesPainter extends CustomPainter {
                 ? 1.2
                 : 1.5),
         paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
+}
+
+class InverseShapesPainter extends CustomPainter {
+  final BuildContext context;
+
+  InverseShapesPainter(this.context);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Paint redPaint = Paint()..color = Colors.white;
+
+    // This will produce a circle as the rectangle is a square.
+    canvas.drawOval(
+        Rect.fromPoints(
+          Offset(8, -250),
+          Offset(405, 250),
+        ),
+        redPaint);
   }
 
   @override

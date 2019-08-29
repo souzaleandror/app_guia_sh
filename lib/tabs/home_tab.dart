@@ -18,6 +18,15 @@ class HomeTab extends StatelessWidget {
         backgroundColor: Colors.orange,
         elevation: 0,
         centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.search,
+              size: 30,
+              color: Colors.white,
+            ),
+          ),
+        ],
       ),
       body: FutureBuilder<QuerySnapshot>(
           future: Firestore.instance.collection("categories").getDocuments(),
@@ -134,6 +143,14 @@ class HomeTab extends StatelessWidget {
                                     painter: ShapesPainter(),
                                     child: CarouselSlider(
                                       height: 300.0,
+                                      aspectRatio: 16 / 9,
+                                      viewportFraction: 0.8,
+                                      autoPlay: true,
+                                      autoPlayInterval: Duration(seconds: 3),
+                                      autoPlayAnimationDuration:
+                                          Duration(milliseconds: 800),
+                                      pauseAutoPlayOnTouch:
+                                          Duration(seconds: 10),
                                       items: snapshot.data.documents.map((url) {
                                         return Builder(
                                           builder: (BuildContext context) {

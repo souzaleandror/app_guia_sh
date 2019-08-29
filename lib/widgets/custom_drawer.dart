@@ -89,7 +89,7 @@ class CustomDrawer extends StatelessWidget {
               DrawerTile(Icons.new_releases, "Destaques", pageController, 2),
               Divider(),
               DrawerTile(FontAwesomeIcons.bell, "Eventos / Festivais",
-                  pageController, 3),
+                  pageController, -2),
               Divider(),
               DrawerTile(Icons.record_voice_over, "Contato", pageController, 4),
               Divider(),

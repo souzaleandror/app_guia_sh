@@ -68,6 +68,7 @@ class MyFavoritesTab extends StatelessWidget {
     final int kmin = 1;
     final int kmax = 40;
     var num = min + rnd.nextInt(max - min);
+    num = 4;
     var knum = kmin + rnd.nextInt(kmax - kmin);
 
     Color _getColorKm(int km) {
@@ -99,7 +100,7 @@ class MyFavoritesTab extends StatelessWidget {
               Padding(
                   padding: EdgeInsets.only(left: 10),
                   child: Container(
-                    width: MediaQuery.of(context).size.width * 0.46,
+                    width: MediaQuery.of(context).size.width * 0.52,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -172,17 +173,15 @@ class MyFavoritesTab extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
-                    ClipOval(
-                      child: Material(
-                        child: SizedBox(
-                            width: 45,
-                            height: 45,
-                            child: Icon(
-                              Icons.favorite,
-                              size: 45,
-                              color: Colors.red,
-                            )),
-                      ),
+                    Material(
+                      child: SizedBox(
+                          width: 45,
+                          height: 45,
+                          child: Icon(
+                            Icons.favorite,
+                            size: 45,
+                            color: Colors.red,
+                          )),
                     ),
                   ],
                 ),
@@ -192,8 +191,9 @@ class MyFavoritesTab extends StatelessWidget {
         ),
       ),
       onTap: () {
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => CompanyScreen(company)));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) =>
+                CompanyScreen(company, "1M5ffsCilsDLNlzgUv6u")));
       },
     );
   }

@@ -111,15 +111,16 @@ class CategoryScreen extends StatelessWidget {
     final Random rnd = Random();
     final int min = 1;
     final int max = 5;
-    final int kmin = 1;
-    final int kmax = 40;
+    final int kmin = 0;
+    final int kmax = 25;
     var num = min + rnd.nextInt(max - min);
+    num = 4;
     var knum = kmin + rnd.nextInt(kmax - kmin);
 
     Color _getColorKm(int km) {
-      if (km <= 10) {
+      if (km < 5) {
         return Colors.green;
-      } else if (km >= 10 && km <= 25) {
+      } else if (km >= 5 && km <= 15) {
         return Colors.amber;
       } else {
         return Colors.red;
@@ -220,14 +221,14 @@ class CategoryScreen extends StatelessWidget {
                   children: <Widget>[
                     ClipOval(
                       child: Material(
-                        color: Colors.orange, // button color
+                        color: Colors.white, // button color
                         child: SizedBox(
                             width: 40,
                             height: 40,
                             child: Icon(
                               Icons.location_on,
                               size: 35,
-                              color: Colors.white,
+                              color: Colors.orange,
                             )),
                       ),
                     ),
@@ -249,8 +250,8 @@ class CategoryScreen extends StatelessWidget {
         ),
       ),
       onTap: () {
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => CompanyScreen(company)));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => CompanyScreen(company, snapshot.documentID)));
       },
     );
   }
