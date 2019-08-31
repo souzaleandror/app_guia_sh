@@ -100,7 +100,7 @@ class MyFavoritesTab extends StatelessWidget {
               Padding(
                   padding: EdgeInsets.only(left: 10),
                   child: Container(
-                    width: MediaQuery.of(context).size.width * 0.52,
+                    width: MediaQuery.of(context).size.width * 0.48,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[

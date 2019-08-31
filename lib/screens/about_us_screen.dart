@@ -1,6 +1,7 @@
 import 'dart:io' show Platform;
 
 import 'package:app_guia_sh/screens/home_screen.dart';
+import 'package:app_guia_sh/screens/privacy_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -154,6 +155,23 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                               snapshot.data["slogan"] ?? "Venha nos conhecer !",
                               style: TextStyle(fontSize: 18.0)),
                         ],
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => PrivacyScreen()));
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 10, bottom: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text("Política de Privacidade",
+                                style: TextStyle(
+                                    fontSize: 18.0, color: Colors.blueAccent)),
+                          ],
+                        ),
                       ),
                     ),
                     Row(
